@@ -1,6 +1,8 @@
 const reducer = require(`../reducers/pages`)
 const { actions } = require(`../actions`)
 
+jest.mock(`fs`)
+
 Date.now = jest.fn(
   () =>
     // const diff = new Date().getTime() - start
@@ -8,11 +10,20 @@ Date.now = jest.fn(
 )
 
 describe(`Add pages`, () => {
-  it(`allows you to add pages`, () => {
+  const MOCK_FILE_INFO = {
+    '/path/to/file1.js': `import React from 'react';
+    export default Page;
+    `,
+  }
+  beforeEach(() => {
+    // Set up some mocked out file info before each test
+    require(`fs`).__setMockFiles(MOCK_FILE_INFO)
+  })
+  test(`allows you to add pages`, () => {
     const action = actions.createPage(
       {
         path: `/hi/`,
-        component: `/whatever/index.js`,
+        component: `/path/to/file1.js`,
       },
       { id: `test`, name: `test` }
     )
@@ -24,7 +35,7 @@ describe(`Add pages`, () => {
   it(`Fails if path is missing`, () => {
     const action = actions.createPage(
       {
-        component: `/whatever/index.js`,
+        component: `/path/to/file1.js`,
       },
       { id: `test`, name: `test` }
     )

@@ -6,7 +6,7 @@ const { bindActionCreators } = require(`redux`)
 const { stripIndent } = require(`common-tags`)
 const glob = require(`glob`)
 const path = require(`path`)
-const { readFileSync } = require(`fs-extra`)
+const fs = require(`fs`)
 const { joinPath } = require(`../utils/path`)
 const {
   getNode,
@@ -187,7 +187,7 @@ actions.createPage = (page: PageInput, plugin?: Plugin, traceId?: string) => {
     return null
   }
   if (!internalPage.component.includes(`/.cache/`)){
-    const fileContent = readFileSync(internalPage.component, `utf-8`)
+    const fileContent = fs.readFileSync(internalPage.component, `utf-8`)
     if (!(fileContent.includes(null)
         || (fileContent.includes(`React`)
           && (fileContent.includes(`export default`) || fileContent.includes(`module.exports`))))) {
