@@ -187,7 +187,11 @@ actions.createPage = (page: PageInput, plugin?: Plugin, traceId?: string) => {
     return null
   }
   if (!internalPage.component.includes(`/.cache/`)){
+<<<<<<< HEAD
     const fileContent = fs.readFileSync(internalPage.component, `utf-8`)
+=======
+    const fileContent = readFileSync(internalPage.component, `utf-8`)
+>>>>>>> origin/pages-file-validation
     if (!(fileContent.includes(null)
         || (fileContent.includes(`React`)
           && (fileContent.includes(`export default`) || fileContent.includes(`module.exports`))))) {
